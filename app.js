@@ -107,6 +107,24 @@ var UIController = (function() {
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
         },
 
+        // Clear the input fields after adding them to the list
+        clearFields: function() {
+            var fields, fieldsArr;
+
+            fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue);
+
+            // querySelectorAll returns a list, which we must convert to array
+            fieldsArr = Array.prototype.slice.call(fields);
+
+            // We must loop over the array
+            fieldsArr.forEach(function(current, index, array) {
+                current.value = "";
+            });
+
+            // Bring back the cursor to the first element of the array (textfield)
+            fieldsArr[0].focus();
+        },
+
         // This will make the private DOMstrings public for us to use below in the Global App Controller
         getDOMstrings: function() {
             return DOMstrings;
@@ -149,9 +167,12 @@ var controller = (function(budgetCtrl, UICtrl) {
         // 3. Add new item to the UI
         UICtrl.addListItem(newItem, input.type);
 
-        // 4. Calculate the budget
+        // 4. Clear the fields
+        UICtrl.clearFields();
 
-        // 5. Display the budget on the UI
+        // 5. Calculate the budget
+
+        // 6. Display the budget on the UI
     };
 
     // In order to make the private setupEventListener public, we must return an object
