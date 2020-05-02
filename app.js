@@ -80,7 +80,7 @@ var UIController = (function() {
             return {
                 type: document.querySelector(DOMstrings.inputType).value, // will either be inc or exp
                 description: document.querySelector(DOMstrings.inputDescription).value,
-                value: document.querySelector(DOMstrings.inputValue).value
+                value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
             };
         },
 
@@ -152,7 +152,14 @@ var controller = (function(budgetCtrl, UICtrl) {
         });
     };
 
-    
+    var updateBudget = function() {
+
+        // 5. Calculate the budget
+
+        // 6. Return the budget
+
+        // 7. Display the budget on the UI
+    };
 
     var ctrlAddItem = function() {
         var input, newItem;
@@ -161,18 +168,19 @@ var controller = (function(budgetCtrl, UICtrl) {
         // 1. Get the field input data
         input = UICtrl.getinput();
 
-        // 2. Add item to the budget controller
-        newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+        if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
+            // 2. Add item to the budget controller
+            newItem = budgetCtrl.addItem(input.type, input.description, input.value);
 
-        // 3. Add new item to the UI
-        UICtrl.addListItem(newItem, input.type);
+            // 3. Add new item to the UI
+            UICtrl.addListItem(newItem, input.type);
 
-        // 4. Clear the fields
-        UICtrl.clearFields();
+            // 4. Clear the fields
+            UICtrl.clearFields();
 
-        // 5. Calculate the budget
-
-        // 6. Display the budget on the UI
+            // 8. Calculate and update budget
+            updateBudget();
+        }
     };
 
     // In order to make the private setupEventListener public, we must return an object
