@@ -163,7 +163,8 @@ var UIController = (function() {
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
-        expensesPercLabel: '.item__percentage'
+        expensesPercLabel: '.item__percentage',
+        dateLabel: '.budget__title--month'
     };
 
     var formatNumber = function(num, type) {
@@ -288,6 +289,33 @@ var UIController = (function() {
             });
         },
 
+        displayMonth: function() {
+            var now, months, month, year;
+
+            now = new Date(); // if you don't put any parameters, it will return the date of today
+            // example:
+            // var christmas = new Date(2020, 11, 25); // it's year, month, day. Also, 
+            // 11 is December because of index 0
+
+            months = [
+                'January', 
+                'February', 
+                'March', 
+                'April', 
+                'May', 
+                'June', 
+                'July', 
+                'August', 
+                'September', 
+                'October', 
+                'November', 
+                'December'
+            ];
+            month = now.getMonth(); // fetching the current month as integer
+            year = now.getFullYear(); // fetching the current year
+            document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ' ' + year;
+        },
+
         // This will make the private DOMstrings public for us to use below in the Global App Controller
         getDOMstrings: function() {
             return DOMstrings;
@@ -391,6 +419,7 @@ var controller = (function(budgetCtrl, UICtrl) {
     // In order to make the private setupEventListener public, we must return an object
     return {
         init: function() {
+            UICtrl.displayMonth();
             UICtrl.displayBudget({
                 budget: 0,
                 totalInc: 0,
